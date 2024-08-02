@@ -2,28 +2,48 @@
     "heroes": [
         {
             "id": 1,
-            "name": "Первый герой",
-            "description": "Первый герой в рейтинге!",
+            "name": "Перший полум'яний герой",
+            "description": "Найпотужніший гравець на сервері!",
             "element": "fire"
         },
         {
             "id": 2,
-            "name": "Неизвестный герой",
-            "description": "Скрывающийся в тени",
+            "name": "Невідомий герой",
+            "description": "Герой, що прихований у тіні",
             "element": "wind"
         },
         {
             "id": 3,
-            "name": "Морской герой",
-            "description": "Как аквамен, но не из DC",
+            "name": "Морський герой",
+            "description": "Той, хто володіє безкрайніми морями",
             "element": "water"
         }
     ],
     "filters": [
-        "all",
-        "fire",
-        "water",
-        "wind",
-        "earth"
+        {
+            "id": 0,
+            "dataName": "all",
+            "name": "Усі"
+        },
+        {
+            "id": 1,
+            "dataName": "fire",
+            "name": "Вогонь"
+        },
+        {
+            "id": 2,
+            "dataName": "water",
+            "name": "Вода"
+        },
+        {
+            "id": 3,
+            "dataName": "wind",
+            "name": "Повітря"
+        },
+        {
+            "id": 4,
+            "dataName": "earth",
+            "name": "Земля"
+        }
     ]
 }

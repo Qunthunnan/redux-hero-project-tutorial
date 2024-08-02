@@ -9,50 +9,49 @@
 // Дополнительно:
 // Элементы <option></option> желательно сформировать на базе
 // данных из фильтров
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { Formik, Field } from "formik";
+import FormFilters from "./FormFilters";
 
 const HeroesAddForm = () => {
-    return (
-        <form className="border p-4 shadow-lg rounded">
-            <div className="mb-3">
-                <label htmlFor="name" className="form-label fs-4">Имя нового героя</label>
-                <input 
-                    required
-                    type="text" 
-                    name="name" 
-                    className="form-control" 
-                    id="name" 
-                    placeholder="Как меня зовут?"/>
-            </div>
+    const filtersLoadingStatus = useSelector(state => state.filtersLoadingStatus);
 
-            <div className="mb-3">
-                <label htmlFor="text" className="form-label fs-4">Описание</label>
-                <textarea
-                    required
-                    name="text" 
-                    className="form-control" 
-                    id="text" 
-                    placeholder="Что я умею?"
-                    style={{"height": '130px'}}/>
-            </div>
+    if(filtersLoadingStatus !== 'error')
+        return (
+            <form className="border p-4 shadow-lg rounded">
+                <div className="mb-3">
+                    <label htmlFor="name" className="form-label fs-4">Ім'я нового героя</label>
+                    <input 
+                        required
+                        type="text" 
+                        name="name" 
+                        className="form-control" 
+                        id="name" 
+                        placeholder="Я мене звати?"/>
+                </div>
 
-            <div className="mb-3">
-                <label htmlFor="element" className="form-label">Выбрать элемент героя</label>
-                <select 
-                    required
-                    className="form-select" 
-                    id="element" 
-                    name="element">
-                    <option >Я владею элементом...</option>
-                    <option value="fire">Огонь</option>
-                    <option value="water">Вода</option>
-                    <option value="wind">Ветер</option>
-                    <option value="earth">Земля</option>
-                </select>
-            </div>
+                <div className="mb-3">
+                    <label htmlFor="text" className="form-label fs-4">Опис</label>
+                    <textarea
+                        required
+                        name="text" 
+                        className="form-control" 
+                        id="text" 
+                        placeholder="Що я вмію?"
+                        style={{"height": '130px'}}/>
+                </div>
 
-            <button type="submit" className="btn btn-primary">Создать</button>
-        </form>
-    )
+                <div className="mb-3">
+                    <label htmlFor="element" className="form-label">Обрати елемент героя</label>
+                    <FormFilters />
+                </div>
+
+                <button type="submit" className="btn btn-primary">Створити</button>
+            </form>
+        )
+    else 
+        return ( <h5>Виникла помилка під час завантаження фільтрів, спробуйте пізніше</h5>)
 }
 
 export default HeroesAddForm;
