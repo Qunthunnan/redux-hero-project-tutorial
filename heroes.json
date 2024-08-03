@@ -1,49 +1,57 @@
 {
-    "heroes": [
-        {
-            "id": 1,
-            "name": "Перший полум'яний герой",
-            "description": "Найпотужніший гравець на сервері!",
-            "element": "fire"
-        },
-        {
-            "id": 2,
-            "name": "Невідомий герой",
-            "description": "Герой, що прихований у тіні",
-            "element": "wind"
-        },
-        {
-            "id": 3,
-            "name": "Морський герой",
-            "description": "Той, хто володіє безкрайніми морями",
-            "element": "water"
-        }
-    ],
-    "filters": [
-        {
-            "id": 0,
-            "dataName": "all",
-            "name": "Усі"
-        },
-        {
-            "id": 1,
-            "dataName": "fire",
-            "name": "Вогонь"
-        },
-        {
-            "id": 2,
-            "dataName": "water",
-            "name": "Вода"
-        },
-        {
-            "id": 3,
-            "dataName": "wind",
-            "name": "Повітря"
-        },
-        {
-            "id": 4,
-            "dataName": "earth",
-            "name": "Земля"
-        }
-    ]
+  "heroes": [
+    {
+      "id": 1,
+      "name": "Перший полум'яний герой",
+      "description": "Найпотужніший гравець на сервері!",
+      "element": "fire"
+    },
+    {
+      "id": 2,
+      "name": "Невідомий герой",
+      "description": "Герой, що прихований у тіні",
+      "element": "wind"
+    },
+    {
+      "id": 3,
+      "name": "Морський герой",
+      "description": "Той, хто володіє безкрайніми морями",
+      "element": "water"
+    },
+    {
+      "name": "SFfsfs",
+      "text": "",
+      "element": "water",
+      "description": "ssgdsdgfgsdg",
+      "id": 170693868696791
+    },
+    {
+      "name": "Тест",
+      "description": "ыаыаыаы",
+      "element": "water",
+      "id": 142081528965361
+    }
+  ],
+  "elements": [
+    {
+      "id": 0,
+      "dataName": "fire",
+      "name": "Вогонь"
+    },
+    {
+      "id": 1,
+      "dataName": "water",
+      "name": "Вода"
+    },
+    {
+      "id": 2,
+      "dataName": "wind",
+      "name": "Повітря"
+    },
+    {
+      "id": 3,
+      "dataName": "earth",
+      "name": "Земля"
+    }
+  ]
 }

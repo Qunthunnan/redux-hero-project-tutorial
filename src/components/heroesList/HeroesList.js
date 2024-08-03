@@ -1,6 +1,8 @@
 import {useHttp} from '../../hooks/http.hook';
-import { useEffect } from 'react';
+import { useEffect, createRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import { heroesFetching, heroesFetched, heroesFetchingError } from '../../actions';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
@@ -13,6 +15,7 @@ import Spinner from '../spinner/Spinner';
 
 const HeroesList = () => {
     const heroes = useSelector(state => state.heroes);
+    const elementFilter = useSelector(state => state.elementFilter);
     const heroesLoadingStatus = useSelector(state => state.heroesLoadingStatus);
     const dispatch = useDispatch();
     const {request} = useHttp();
@@ -32,21 +35,35 @@ const HeroesList = () => {
         return <h5 className="text-center mt-5">Ошибка загрузки</h5>
     }
 
+    function filterHeroesList(arr) {
+        return arr.filter(({element}) => element === elementFilter);
+    }
+
     const renderHeroesList = (arr) => {
         if (arr.length === 0) {
             return <h5 className="text-center mt-5">Героев пока нет</h5>
         }
-
+        let offset = 0;
         return arr.map(({id, ...props}) => {
-            return <HeroesListItem key={id} {...props}/>
+            const ref = createRef();
+            console.log(id);
+            return (
+            <CSSTransition
+                key={id}
+                nodeRef={ref}
+                timeout={ offset+=100}
+                classNames='fade-hero' >
+                <HeroesListItem ref={ref} id={id} {...props}/>
+            </CSSTransition>
+            )
         })
     }
 
-    const elements = renderHeroesList(heroes);
+    const elements = elementFilter === 'all' ? renderHeroesList(heroes) : renderHeroesList(filterHeroesList(heroes));
     return (
-        <ul>
+        <TransitionGroup component='ul'>
             {elements}
-        </ul>
+        </TransitionGroup>
     )
 }
 

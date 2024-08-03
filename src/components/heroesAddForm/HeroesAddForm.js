@@ -9,49 +9,105 @@
 // Дополнительно:
 // Элементы <option></option> желательно сформировать на базе
 // данных из фильтров
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { Formik, Field } from "formik";
-import FormFilters from "./FormFilters";
+
+import { useHttp } from "../../hooks/http.hook";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useDispatch, useSelector } from "react-redux";
+import { heroesPosting, heroesPosted, heroesPostingError } from "../../actions";
+import Spinner from '../spinner/Spinner';
+import { v4 } from "uuid";
+import * as Yup from 'yup';
+import FormElementSelector from "./FormElementSelector";
 
 const HeroesAddForm = () => {
-    const filtersLoadingStatus = useSelector(state => state.filtersLoadingStatus);
+    const dispatch = useDispatch();
+    const heroes = useSelector(state => state.heroes);
+    const formPosting = useSelector(state => state.formPosting);
+    const { request } = useHttp();
 
-    if(filtersLoadingStatus !== 'error')
+    function postHero(hero, { resetForm }) {
+        dispatch(heroesPosting());
+        const uuid = v4();
+        hero.id = parseInt(uuid.replace(/-/g, '').slice(0, 12), 16);
+
+        request('http://localhost:3001/heroes', 'POST', JSON.stringify(hero))
+        .then(result => {
+            dispatch(heroesPosted([...heroes, hero]));
+            resetForm();
+        })
+        .catch(error => {
+            console.error(error)
+            dispatch(heroesPostingError());
+        });
+    }
+    
+    const elementsLoadingStatus = useSelector(state => state.elementsLoadingStatus);
+    const elements = useSelector(state => state.elements);
+
+    const formSchema = Yup.object().shape({
+        name: Yup.string()
+            .min(2, 'Мінімальна кількість символів у імені: 2')
+            .max(256, 'Максимальна кількість символів у імені: 256')
+            .required("Необхідне ваше ім'я"),
+        description: Yup.string()
+            .min(3, 'Мінімальна кількість символів у описі: 3')
+            .max(1000, 'Максимальна кількість символів у описі: 1000')
+            .required("Необхідно додати опис"),
+        element: Yup.string()
+            .oneOf(elements.map( element => element.dataName ), 'Виберіть елемент героя')
+            .required('Виберіть елемент героя')
+    });
+
+    if(elementsLoadingStatus !== 'error')
         return (
-            <form className="border p-4 shadow-lg rounded">
-                <div className="mb-3">
-                    <label htmlFor="name" className="form-label fs-4">Ім'я нового героя</label>
-                    <input 
-                        required
-                        type="text" 
-                        name="name" 
-                        className="form-control" 
-                        id="name" 
-                        placeholder="Я мене звати?"/>
-                </div>
+            <Formik
+                initialValues={{
+                    name: '',
+                    description: '',
+                    element: ''
+                }}
+                validationSchema={formSchema}
+                onSubmit={postHero}>
+                <Form className="border p-4 shadow-lg rounded">
+                    <div className="mb-3">
+                        <label htmlFor="name" className="form-label fs-4">Ім'я нового героя</label>
+                        <Field 
+                            type="text" 
+                            name="name" 
+                            className="form-control" 
+                            id="name" 
+                            placeholder="Я мене звати?"/>
+                        <ErrorMessage name="name" />
+                    </div>
 
-                <div className="mb-3">
-                    <label htmlFor="text" className="form-label fs-4">Опис</label>
-                    <textarea
-                        required
-                        name="text" 
-                        className="form-control" 
-                        id="text" 
-                        placeholder="Що я вмію?"
-                        style={{"height": '130px'}}/>
-                </div>
+                    <div className="mb-3">
+                        <label htmlFor="description" className="form-label fs-4">Опис</label>
+                        <Field
+                            as="textarea"
+                            name="description" 
+                            className="form-control" 
+                            id="description" 
+                            placeholder="Що я вмію?"
+                            style={{"height": '130px'}}/>
+                        <ErrorMessage name="description" />
+                    </div>
 
-                <div className="mb-3">
-                    <label htmlFor="element" className="form-label">Обрати елемент героя</label>
-                    <FormFilters />
-                </div>
+                    <div className="mb-3">
+                        <label htmlFor="element" className="form-label">Обрати елемент героя</label>
+                        <FormElementSelector />
+                        <ErrorMessage name="element"/>
+                    </div>
 
-                <button type="submit" className="btn btn-primary">Створити</button>
-            </form>
+                    { formPosting === 'loading' ? <Spinner/> : <button type="submit" className="btn btn-primary">Створити</button>}
+                    {
+                        formPosting === 'error' ? <h5>Виникла помилка під час відправки даних, спробуйте пізніше</h5> : null
+                    }
+                    
+                </Form>
+            </Formik>
         )
     else 
-        return ( <h5>Виникла помилка під час завантаження фільтрів, спробуйте пізніше</h5>)
+        return ( <h5>Виникла помилка під час завантаження елементів, спробуйте пізніше</h5>)
 }
 
 export default HeroesAddForm;

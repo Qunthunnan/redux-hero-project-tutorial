@@ -1,4 +1,28 @@
-const HeroesListItem = ({ name, description, element }) => {
+import { useSelector, useDispatch } from "react-redux";
+import { heroDeleting, heroDeleted, heroDeletingError } from "../../actions";
+import { useHttp } from "../../hooks/http.hook";
+import Spinner from "../spinner/Spinner";
+import { forwardRef } from "react";
+
+const HeroesListItem = forwardRef(({ name, description, element, id }, ref) => {
+	const dispatch = useDispatch();
+	const heroes = useSelector(state => state.heroes);
+	const heroDeletingStatus = useSelector(state => state.heroDeletingStatus);
+	const { request } = useHttp();
+
+	function deleteHero() {
+		dispatch(heroDeleting());
+		request(`http://localhost:3001/heroes/${id}`, 'DELETE')
+		.then(result => {
+			console.log(result);
+			dispatch(heroDeleted(heroes.filter(hero => hero.id !== id )))
+		})
+		.catch(error => {
+			console.error(error);
+			dispatch(heroDeletingError());
+		})
+	}
+
 	let elementClassName;
 
 	switch (element) {
@@ -21,6 +45,7 @@ const HeroesListItem = ({ name, description, element }) => {
 	return (
 		<li
 			className={`card flex-row mb-4 shadow-lg text-white ${elementClassName}`}
+			ref={ref}
 		>
 			<img
 				src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/1200px-Unknown_person.jpg"
@@ -33,14 +58,17 @@ const HeroesListItem = ({ name, description, element }) => {
 				<p className="card-text">{description}</p>
 			</div>
 			<span className="position-absolute top-0 start-100 translate-middle badge border rounded-pill bg-light">
+				{ heroDeletingStatus === 'loading' ? <Spinner/> : 
 				<button
 					type="button"
 					className="btn-close btn-close"
 					aria-label="Close"
-				></button>
+					onClick={deleteHero}
+				></button> }
+				{heroDeletingStatus === 'error' ? ( <span>⚠️</span> ) : null }
 			</span>
 		</li>
 	);
-};
+});
 
 export default HeroesListItem;

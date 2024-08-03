@@ -2,40 +2,36 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHttp } from "../../hooks/http.hook";
 import { filtersFetching, filtersFetched, filtersError } from "../../actions";
+import { Field } from "formik";
 
-function FormFilters () {
+function FormElementSelector () {
     const dispatch = useDispatch();
     const { request } = useHttp();
 
-    const filters  = useSelector(state => state.filters);
-    const filtersLoadingStatus = useSelector(state => state.filtersLoadingStatus);
+    const elements  = useSelector(state => state.elements);
+    const elementsLoadingStatus = useSelector(state => state.elementsLoadingStatus);
 
     useEffect(() => {
         dispatch(filtersFetching());
 
-        request('http://localhost:3001/filters')
+        request('http://localhost:3001/elements')
         .then((result) => {
             dispatch(filtersFetched(result))
         })
         .catch(() => {dispatch(filtersError())})
     }, []);
-
-    useEffect(()=> {
-        console.log(filters);
-        console.log(filtersLoadingStatus);
-    }); 
-
-    switch (filtersLoadingStatus) {
+    
+    switch (elementsLoadingStatus) {
         case 'idle':
             return (
-            <select 
-                required
+            <Field 
+                as="select"
                 className="form-select" 
                 id="element" 
                 name="element">
-                <option >Я володію елементом...</option>
-                { filters.map(filter => (<option key={filter.id} value={filter.dataName}>{filter.name}</option>)) }
-            </select>
+                <option>Я володію елементом...</option>
+                { elements.map(element => ( <option key={element.id} value={element.dataName}>{element.name}</option>)) }
+            </Field>
             )
         
         case 'loading':
@@ -45,14 +41,14 @@ function FormFilters () {
                 className="form-select" 
                 id="element" 
                 name="element">
-                <option >Завантажуються фільтри...</option>
+                <option >Завантажуються елементи...</option>
             </select>
             )
         case 'error':
             return (
-                <h5>Виникла помилка під час завантаження фільтрів, спробуйте пізніше</h5>
+                <h5>Виникла помилка під час завантаження елементів, спробуйте пізніше</h5>
             )
     }
 }
 
-export default FormFilters;
+export default FormElementSelector;

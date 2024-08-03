@@ -1,12 +1,47 @@
 const initialState = {
     heroes: [],
     heroesLoadingStatus: 'idle',
-    filters: [],
-    filtersLoadingStatus: 'idle',
+    formPosting: 'idle',
+    elements: [],
+    elementsLoadingStatus: 'idle',
+    heroDeletingStatus: 'idle',
+    elementFilter: 'all'
 }
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case 'HEROES_POSTING':  
+            return {
+                ...state,
+                formPosting: 'loading'
+            }
+        case 'HEROES_POSTED':  
+            return {
+                ...state,
+                formPosting: 'idle',
+                heroes: action.payload
+            }
+        case 'HEROES_POSTING_ERROR':  
+            return {
+                ...state,
+                formPosting: 'error'
+            }
+        case 'HERO_DELETING':
+            return {
+                ...state,
+                heroDeletingStatus: 'loading'
+            }
+        case 'HERO_DELETED':
+            return {
+                ...state,
+                heroes: action.payload,
+                heroDeletingStatus: 'idle'
+            }
+        case 'HERO_DELETING_ERROR':
+            return {
+                ...state,
+                heroDeletingStatus: 'error'
+            }
         case 'HEROES_FETCHING':
             return {
                 ...state,
@@ -26,18 +61,23 @@ const reducer = (state = initialState, action) => {
         case 'FILTERS_FETCHING': 
             return {
                 ...state,
-                filtersLoadingStatus: 'loading'
+                elementsLoadingStatus: 'loading'
             }
         case 'FILTERS_FETCHED': 
             return {
                 ...state,
-                filters: action.payload,
-                filtersLoadingStatus: 'idle'
+                elements: action.payload,
+                elementsLoadingStatus: 'idle'
             }
         case 'FILTERS_FETCHING_ERROR':
             return {
                 ...state,
-                filtersLoadingStatus: 'error'
+                elementsLoadingStatus: 'error'
+            }
+        case 'SET_ELEMENT_FILTER':
+            return {
+                ...state,
+                elementFilter: action.payload
             }
 
         default: return state
