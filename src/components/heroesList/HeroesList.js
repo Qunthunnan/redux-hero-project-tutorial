@@ -41,29 +41,38 @@ const HeroesList = () => {
 
     const renderHeroesList = (arr) => {
         if (arr.length === 0) {
-            return <h5 className="text-center mt-5">Героев пока нет</h5>
-        }
-        let offset = 0;
-        return arr.map(({id, ...props}) => {
-            const ref = createRef();
-            console.log(id);
+            const ref = createRef(null);
             return (
-            <CSSTransition
-                key={id}
-                nodeRef={ref}
-                timeout={ offset+=100}
-                classNames='fade-hero' >
-                <HeroesListItem ref={ref} id={id} {...props}/>
-            </CSSTransition>
+                <CSSTransition 
+                timeout={100}
+                classNames={'hero'}
+                nodeRef={ref}>
+                    <h5 ref={ref} className="text-center mt-5">Героев пока нет</h5>
+                </CSSTransition>
+            )
+        }
+        return arr.map(({id, ...props}) => {
+            const ref = createRef(null);
+            return (
+                <CSSTransition 
+                    key={id}
+                    timeout={200}
+                    classNames={'hero'}
+                    nodeRef={ref}>
+                    <HeroesListItem ref={ref} id={id} {...props}/>
+                </CSSTransition>
             )
         })
     }
 
     const elements = elementFilter === 'all' ? renderHeroesList(heroes) : renderHeroesList(filterHeroesList(heroes));
     return (
-        <TransitionGroup component='ul'>
-            {elements}
-        </TransitionGroup>
+       
+            <TransitionGroup component='ul'>
+                {elements}
+            </TransitionGroup>
+    
+
     )
 }
 

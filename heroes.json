@@ -1,35 +1,16 @@
 {
   "heroes": [
     {
-      "id": 1,
-      "name": "Перший полум'яний герой",
-      "description": "Найпотужніший гравець на сервері!",
-      "element": "fire"
-    },
-    {
-      "id": 2,
-      "name": "Невідомий герой",
-      "description": "Герой, що прихований у тіні",
-      "element": "wind"
-    },
-    {
-      "id": 3,
-      "name": "Морський герой",
-      "description": "Той, хто володіє безкрайніми морями",
-      "element": "water"
-    },
-    {
-      "name": "SFfsfs",
-      "text": "",
+      "name": "Ніяк",
+      "description": "нічого",
       "element": "water",
-      "description": "ssgdsdgfgsdg",
-      "id": 170693868696791
+      "id": 166295775497164
     },
     {
-      "name": "Тест",
-      "description": "ыаыаыаы",
-      "element": "water",
-      "id": 142081528965361
+      "name": "іаіаіаіа",
+      "description": "фіаіафав",
+      "element": "wind",
+      "id": 127124941879906
     }
   ],
   "elements": [
