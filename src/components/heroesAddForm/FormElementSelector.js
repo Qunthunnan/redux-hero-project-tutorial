@@ -8,8 +8,8 @@ function FormElementSelector () {
     const dispatch = useDispatch();
     const { request } = useHttp();
 
-    const elements  = useSelector(state => state.elements);
-    const elementsLoadingStatus = useSelector(state => state.elementsLoadingStatus);
+    const elements  = useSelector(state => state.filters.elements);
+    const elementsLoadingStatus = useSelector(state => state.filters.elementsLoadingStatus);
 
     useEffect(() => {
         dispatch(filtersFetching());

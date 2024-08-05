@@ -8,8 +8,8 @@ import './heroesListItem.scss';
 
 const HeroesListItem = forwardRef(({ name, description, element, id }, ref) => {
 	const dispatch = useDispatch();
-	const heroes = useSelector(state => state.heroes);
-	const heroDeletingStatus = useSelector(state => state.heroDeletingStatus);
+	const heroes = useSelector(state => state.heroes.heroes);
+	const heroDeletingStatus = useSelector(state => state.heroes.heroDeletingStatus);
 	const { request } = useHttp();
 
 

@@ -21,8 +21,8 @@ import FormElementSelector from "./FormElementSelector";
 
 const HeroesAddForm = () => {
     const dispatch = useDispatch();
-    const heroes = useSelector(state => state.heroes);
-    const formPosting = useSelector(state => state.formPosting);
+    const heroes = useSelector(state => state.heroes.heroes);
+    const formPosting = useSelector(state => state.heroes.formPosting);
     const { request } = useHttp();
 
     function postHero(hero, { resetForm }) {
@@ -41,8 +41,8 @@ const HeroesAddForm = () => {
         });
     }
     
-    const elementsLoadingStatus = useSelector(state => state.elementsLoadingStatus);
-    const elements = useSelector(state => state.elements);
+    const elementsLoadingStatus = useSelector(state => state.filters.elementsLoadingStatus);
+    const elements = useSelector(state => state.filters.elements);
 
     const formSchema = Yup.object().shape({
         name: Yup.string()

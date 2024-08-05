@@ -1,12 +1,15 @@
 import {useHttp} from '../../hooks/http.hook';
 import { useEffect, createRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { createSelector } from 'reselect';
+
 
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import { heroesFetching, heroesFetched, heroesFetchingError } from '../../actions';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
+import filters from '../../reducers/filters';
 
 // Задача для этого компонента:
 // При клике на "крестик" идет удаление персонажа из общего состояния
@@ -14,12 +17,21 @@ import Spinner from '../spinner/Spinner';
 // Удаление идет и с json файла при помощи метода DELETE
 
 const HeroesList = () => {
-    const heroes = useSelector(state => state.heroes);
-    const elementFilter = useSelector(state => state.elementFilter);
-    const heroesLoadingStatus = useSelector(state => state.heroesLoadingStatus);
+    const heroes = useSelector(state => state.heroes.heroes);
+    const elementFilter = useSelector(state => state.filters.elementFilter);
+    const heroesLoadingStatus = useSelector(state => state.heroes.heroesLoadingStatus);
     const dispatch = useDispatch();
     const {request} = useHttp();
 
+    //reselect demo
+    const filteredHeroesSelector = createSelector(
+        state => state.heroes.heroes,
+        state => state.filters.elementFilter,
+        (heroes, filter) => ( filter !== 'all' ? heroes.filter(({element}) => element === filter) : heroes )
+    )
+
+    const filteredHeroes = useSelector(filteredHeroesSelector);
+     
     useEffect(() => {
         dispatch(heroesFetching());
         request("http://localhost:3001/heroes")
@@ -65,7 +77,9 @@ const HeroesList = () => {
         })
     }
 
-    const elements = elementFilter === 'all' ? renderHeroesList(heroes) : renderHeroesList(filterHeroesList(heroes));
+    // const elements = elementFilter === 'all' ? renderHeroesList(heroes) : renderHeroesList(filterHeroesList(heroes));
+    console.log(filteredHeroes);
+    const elements =  renderHeroesList(filteredHeroes);
     return (
        
             <TransitionGroup component='ul'>

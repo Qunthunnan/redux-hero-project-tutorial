@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setElementFilter } from "../../actions";
 
 const HeroesFilters = () => {
-    const elementFilter = useSelector(state => state.elementFilter);
+    const elementFilter = useSelector(state => state.filters.elementFilter);
     const dispatch = useDispatch();
     function handleClick(e) {
         const filter = e.target.getAttribute('data-filter');
