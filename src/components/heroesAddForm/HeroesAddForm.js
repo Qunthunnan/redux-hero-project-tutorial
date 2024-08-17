@@ -10,10 +10,15 @@
 // Элементы <option></option> желательно сформировать на базе
 // данных из фильтров
 
-import { useHttp } from "../../hooks/http.hook";
+// import { useHttp } from "../../hooks/http.hook";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+
+
 import { useDispatch, useSelector } from "react-redux";
 import { heroesPosting, heroesPosted, heroesPostingError } from "../../actions";
+
+import { postHero } from "../heroesFilters/heroesSlice";
+
 import Spinner from '../spinner/Spinner';
 import { v4 } from "uuid";
 import * as Yup from 'yup';
@@ -21,24 +26,25 @@ import FormElementSelector from "./FormElementSelector";
 
 const HeroesAddForm = () => {
     const dispatch = useDispatch();
-    const heroes = useSelector(state => state.heroes.heroes);
+    // const heroes = useSelector(state => state.heroes.heroes);
     const formPosting = useSelector(state => state.heroes.formPosting);
-    const { request } = useHttp();
+    // const { request } = useHttp();
 
-    function postHero(hero, { resetForm }) {
-        dispatch(heroesPosting());
+    function createHero(hero, { resetForm }) {
+        // dispatch(heroesPosting());
         const uuid = v4();
         hero.id = parseInt(uuid.replace(/-/g, '').slice(0, 12), 16);
 
-        request('http://localhost:3001/heroes', 'POST', JSON.stringify(hero))
-        .then(result => {
-            dispatch(heroesPosted([...heroes, hero]));
-            resetForm();
-        })
-        .catch(error => {
-            console.error(error)
-            dispatch(heroesPostingError());
-        });
+        dispatch(postHero(hero));
+        // request('http://localhost:3001/heroes', 'POST', JSON.stringify(hero))
+        // .then(result => {
+        //     dispatch(heroesPosted([...heroes, hero]));
+        //     resetForm();
+        // })
+        // .catch(error => {
+        //     console.error(error)
+        //     dispatch(heroesPostingError());
+        // });
     }
     
     const elementsLoadingStatus = useSelector(state => state.filters.elementsLoadingStatus);
@@ -67,7 +73,7 @@ const HeroesAddForm = () => {
                     element: ''
                 }}
                 validationSchema={formSchema}
-                onSubmit={postHero}>
+                onSubmit={createHero}>
                 <Form className="border p-4 shadow-lg rounded">
                     <div className="mb-3">
                         <label htmlFor="name" className="form-label fs-4">Ім'я нового героя</label>

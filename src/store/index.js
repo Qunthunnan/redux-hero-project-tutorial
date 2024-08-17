@@ -1,6 +1,7 @@
 // import { createStore, combineReducers } from 'redux';
 import filters from '../components/heroesFilters/filtersSlice';
-import heroes from '../reducers/heroes';
+// import heroes from '../reducers/heroes';
+import heroes from '../components/heroesFilters/heroesSlice';
 import { 
     // compose, applyMiddleware, 
     configureStore } from '@reduxjs/toolkit';
