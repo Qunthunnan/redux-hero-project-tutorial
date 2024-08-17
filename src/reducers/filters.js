@@ -1,8 +1,28 @@
+import { createReducer } from "@reduxjs/toolkit";
+import {
+    setElementFilter,
+    filtersFetching,
+    filtersFetched,
+    filtersError
+} from '../actions';
+
 const initialState = {
     elements: [],
     elementsLoadingStatus: 'idle',
     elementFilter: 'all'
 }
+
+// const filters = createReducer(initialState, {
+//     [filtersFetching]: state => { state.elementsLoadingStatus = 'loading' },
+//     [filtersFetched]: (state, actions) => { 
+//         state.elementsLoadingStatus = 'idle';
+//         state.elements = actions.payload;
+//     },
+//     [filtersError]: state => { state.elementsLoadingStatus = 'error'},
+//     [setElementFilter]: (state, action) => {
+//         state.elementFilter = action.payload;
+//     }
+// }, [], state => state)
 
 const filters = (state = initialState, action) => {
     switch (action.type) {

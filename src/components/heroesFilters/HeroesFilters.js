@@ -6,7 +6,7 @@
 // Изменять json-файл для удобства МОЖНО!
 // Представьте, что вы попросили бэкенд-разработчика об этом
 import { useSelector, useDispatch } from "react-redux";
-import { setElementFilter } from "../../actions";
+import { setElementFilter } from "./filtersSlice";
 
 const HeroesFilters = () => {
     const elementFilter = useSelector(state => state.filters.elementFilter);

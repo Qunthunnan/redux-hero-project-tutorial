@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHttp } from "../../hooks/http.hook";
-import { filtersFetching, filtersFetched, filtersError } from "../../actions";
+import { filtersFetching, filtersFetched, filtersFetchingError } from "../heroesFilters/filtersSlice";
 import { Field } from "formik";
 
 function FormElementSelector () {
@@ -18,7 +18,7 @@ function FormElementSelector () {
         .then((result) => {
             dispatch(filtersFetched(result))
         })
-        .catch(() => {dispatch(filtersError())})
+        .catch(() => {dispatch(filtersFetchingError())})
     }, []);
     
     switch (elementsLoadingStatus) {
