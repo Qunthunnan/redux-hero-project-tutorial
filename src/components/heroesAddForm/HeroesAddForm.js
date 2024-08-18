@@ -15,17 +15,19 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 
 
 import { useDispatch, useSelector } from "react-redux";
-import { heroesPosting, heroesPosted, heroesPostingError } from "../../actions";
+// import { heroesPosting, heroesPosted, heroesPostingError } from "../../actions";
 
-import { postHero } from "../heroesFilters/heroesSlice";
+// import { postHero } from "../heroesFilters/heroesSlice";
 
 import Spinner from '../spinner/Spinner';
 import { v4 } from "uuid";
 import * as Yup from 'yup';
 import FormElementSelector from "./FormElementSelector";
+import { usePostHeroMutation } from "../api/apiSlice";
 
 const HeroesAddForm = () => {
     const dispatch = useDispatch();
+    const [postHero, {isLoading, isFetching, isError, isSuccess}] = usePostHeroMutation();
     // const heroes = useSelector(state => state.heroes.heroes);
     const formPosting = useSelector(state => state.heroes.formPosting);
     // const { request } = useHttp();
@@ -35,7 +37,10 @@ const HeroesAddForm = () => {
         const uuid = v4();
         hero.id = parseInt(uuid.replace(/-/g, '').slice(0, 12), 16);
 
-        dispatch(postHero({data: hero, reset: resetForm}));
+        postHero(hero);
+
+        // dispatch(postHero({data: hero, reset: resetForm}));
+
         // request('http://localhost:3001/heroes', 'POST', JSON.stringify(hero))
         // .then(result => {
         //     dispatch(heroesPosted([...heroes, hero]));
@@ -104,10 +109,10 @@ const HeroesAddForm = () => {
                         <ErrorMessage name="element"/>
                     </div>
 
-                    { formPosting === 'loading' ? <Spinner/> : <button type="submit" className="btn btn-primary">Створити</button>}
-                    {
-                        formPosting === 'error' ? <h5>Виникла помилка під час відправки даних, спробуйте пізніше</h5> : null
-                    }
+                    { isLoading || isFetching ? <Spinner/> : <button type="submit" className="btn btn-primary">Створити</button>}
+                    { isError ? <h5>Виникла помилка під час відправки даних, спробуйте пізніше</h5> : null }
+                    {/* { formPosting === 'loading' ? <Spinner/> : <button type="submit" className="btn btn-primary">Створити</button>} */}
+                    {/* { formPosting === 'error' ? <h5>Виникла помилка під час відправки даних, спробуйте пізніше</h5> : null } */}
                     
                 </Form>
             </Formik>

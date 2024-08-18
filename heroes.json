@@ -7,22 +7,16 @@
       "id": 166295775497164
     },
     {
-      "name": "кирило",
-      "description": "крокодило",
+      "name": "Перевірка форми",
+      "description": "мити поли",
       "element": "water",
-      "id": 6253030881532
+      "id": 125372175264422
     },
     {
-      "name": "Кириририл",
-      "description": "Літати",
-      "element": "wind",
-      "id": 181102601154513
-    },
-    {
-      "name": "Перевірка на довбойоба",
-      "description": "spanish or english?",
+      "name": "Шо з анімаціями",
+      "description": "???",
       "element": "fire",
-      "id": 83040413392958
+      "id": 278910220244561
     }
   ],
   "elements": [

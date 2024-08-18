@@ -1,7 +1,8 @@
 import { useSelector, useDispatch } from "react-redux";
 // import { heroDeleting, heroDeleted, heroDeletingError } from "../../actions";
-import { deleteHero } from "../heroesFilters/heroesSlice";
-import { useHttp } from "../../hooks/http.hook";
+// import { deleteHero } from "../heroesFilters/heroesSlice";
+import { useDeleteHeroMutation } from "../api/apiSlice";
+// import { useHttp } from "../../hooks/http.hook";
 import { forwardRef } from "react";
 import Spinner from "../spinner/Spinner";
 import './heroesListItem.scss';
@@ -9,6 +10,8 @@ import './heroesListItem.scss';
 
 const HeroesListItem = forwardRef(({ name, description, element, id }, ref) => {
 	const dispatch = useDispatch();
+	const [deleteHero, {isLoading, isFetching, isError}] = useDeleteHeroMutation();
+
 	// const heroes = useSelector(state => state.heroes.heroes);
 	const heroDeletingStatus = useSelector(state => state.heroes.heroDeletingStatus);
 	// const { request } = useHttp();
@@ -63,14 +66,17 @@ const HeroesListItem = forwardRef(({ name, description, element, id }, ref) => {
 					<p className="card-text">{description}</p>
 				</div>
 				<span className="position-absolute top-0 start-100 translate-middle badge border rounded-pill bg-light">
-					{ heroDeletingStatus === 'loading' ? <Spinner/> : 
+					{/* { heroDeletingStatus === 'loading' ? <Spinner/> :  */}
+					{ isLoading || isFetching ? <Spinner/> : 
 					<button
 						type="button"
 						className="btn-close btn-close"
 						aria-label="Close"
-						onClick={() => { dispatch(deleteHero(id)) }}
+						// onClick={() => { dispatch(deleteHero(id)) }}
+						onClick={() => { deleteHero(id) }}
 					></button> }
-					{heroDeletingStatus === 'error' ? ( <span>⚠️</span> ) : null }
+					{/* {heroDeletingStatus === 'error' ? ( <span>⚠️</span> ) : null } */}
+					{isError ? ( <span>⚠️</span> ) : null }
 				</span>
 			</li>
 	)
