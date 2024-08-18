@@ -35,7 +35,7 @@ const HeroesAddForm = () => {
         const uuid = v4();
         hero.id = parseInt(uuid.replace(/-/g, '').slice(0, 12), 16);
 
-        dispatch(postHero(hero));
+        dispatch(postHero({data: hero, reset: resetForm}));
         // request('http://localhost:3001/heroes', 'POST', JSON.stringify(hero))
         // .then(result => {
         //     dispatch(heroesPosted([...heroes, hero]));

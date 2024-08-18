@@ -7,22 +7,22 @@
       "id": 166295775497164
     },
     {
-      "name": "ГГ",
-      "description": "НАЙБІЛЬШИЙ ЧЛЕН В УСЬОМУ ЛОРІ",
+      "name": "кирило",
+      "description": "крокодило",
+      "element": "water",
+      "id": 6253030881532
+    },
+    {
+      "name": "Кириририл",
+      "description": "Літати",
+      "element": "wind",
+      "id": 181102601154513
+    },
+    {
+      "name": "Перевірка на довбойоба",
+      "description": "spanish or english?",
       "element": "fire",
-      "id": 56145618936511
-    },
-    {
-      "name": "Тестовий тест",
-      "description": "Прихований qa",
-      "element": "wind",
-      "id": 96646957082445
-    },
-    {
-      "name": "Кирило",
-      "description": "Летючий хакер",
-      "element": "wind",
-      "id": 263475988963393
+      "id": 83040413392958
     }
   ],
   "elements": [

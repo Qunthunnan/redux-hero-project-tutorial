@@ -82,7 +82,6 @@ const HeroesList = () => {
     }
 
     // const elements = elementFilter === 'all' ? renderHeroesList(heroes) : renderHeroesList(filterHeroesList(heroes));
-    console.log(filteredHeroes);
     const elements =  renderHeroesList(filteredHeroes);
     return (
        

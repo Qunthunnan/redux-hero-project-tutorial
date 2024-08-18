@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
-import { heroDeleting, heroDeleted, heroDeletingError } from "../../actions";
+// import { heroDeleting, heroDeleted, heroDeletingError } from "../../actions";
+import { deleteHero } from "../heroesFilters/heroesSlice";
 import { useHttp } from "../../hooks/http.hook";
 import { forwardRef } from "react";
 import Spinner from "../spinner/Spinner";
@@ -8,23 +9,24 @@ import './heroesListItem.scss';
 
 const HeroesListItem = forwardRef(({ name, description, element, id }, ref) => {
 	const dispatch = useDispatch();
-	const heroes = useSelector(state => state.heroes.heroes);
+	// const heroes = useSelector(state => state.heroes.heroes);
 	const heroDeletingStatus = useSelector(state => state.heroes.heroDeletingStatus);
-	const { request } = useHttp();
+	// const { request } = useHttp();
 
 
-	function deleteHero() {
-		dispatch(heroDeleting());
-		request(`http://localhost:3001/heroes/${id}`, 'DELETE')
-		.then(result => {
-			console.log(result);
-			dispatch(heroDeleted(heroes.filter(hero => hero.id !== id )))
-		})
-		.catch(error => {
-			console.error(error);
-			dispatch(heroDeletingError());
-		})
-	}
+	// function deleteHero() {
+
+		// dispatch(heroDeleting());
+		// request(`http://localhost:3001/heroes/${id}`, 'DELETE')
+		// .then(result => {
+		// 	console.log(result);
+		// 	dispatch(heroDeleted(heroes.filter(hero => hero.id !== id )))
+		// })
+		// .catch(error => {
+		// 	console.error(error);
+		// 	dispatch(heroDeletingError());
+		// })
+	// }
 
 	let elementClassName;
 
@@ -66,7 +68,7 @@ const HeroesListItem = forwardRef(({ name, description, element, id }, ref) => {
 						type="button"
 						className="btn-close btn-close"
 						aria-label="Close"
-						onClick={deleteHero}
+						onClick={() => { dispatch(deleteHero(id)) }}
 					></button> }
 					{heroDeletingStatus === 'error' ? ( <span>⚠️</span> ) : null }
 				</span>

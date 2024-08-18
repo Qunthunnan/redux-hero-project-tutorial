@@ -17,10 +17,9 @@ export const fetchHeroes = createAsyncThunk(
 
 export const postHero = createAsyncThunk(
     'heroes/heroesPosting',
-    (data) => {
-        console.log(data);
+    ({data}) => {
         const { request } = useHttp();
-        return request('http://localhost:3001/heroes', 'POST', JSON.stringify(data))
+        return request('http://localhost:3001/heroes', 'POST', JSON.stringify(data));
     }
 )
 
@@ -28,7 +27,7 @@ export const deleteHero = createAsyncThunk(
     'heroes/heroDeleting',
     (id) => {
         const { request } = useHttp();
-        return request(`http://localhost:3001/heroes/${id}`, id)
+        return request(`http://localhost:3001/heroes/${id}`, 'DELETE');
     }
 )
 
@@ -51,20 +50,24 @@ const heroesSlice = createSlice({
                 heroesAdapter.setAll(state, action.payload);
             })
             .addCase(fetchHeroes.rejected, state => { state.heroesLoadingStatus = 'error'})
+
             .addCase(postHero.pending, state => {state.formPosting = 'loading'})
             .addCase(postHero.fulfilled, (state, action) => {
+                console.log(action);
                 state.formPosting = 'idle';
-                // state.heroes = action.payload;
+                action.meta.arg.reset();
                 heroesAdapter.addOne(state, action.payload);
             })
             .addCase(postHero.rejected, state => {state.formPosting = 'error'})
+
             .addCase(deleteHero.pending, state => { state.heroDeletingStatus = 'loading'})
             .addCase(deleteHero.fulfilled, (state, action) => { 
                 state.heroDeletingStatus = 'idle';
-                // state.heroes = action.payload;
-                heroesAdapter.removeOne(state, action.payload);
+                const id = action.meta.arg;
+                heroesAdapter.removeOne(state, id);
             })
             .addCase(deleteHero.rejected, state => { state.heroDeletingStatus = 'error'})
+
             .addDefaultCase(() => {});
     }
 });
